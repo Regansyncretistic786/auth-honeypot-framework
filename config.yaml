@@ -1,0 +1,97 @@
+# Authentication Honeypot Framework Configuration
+
+# Server settings
+server:
+  bind_address: "0.0.0.0"
+  max_connections: 100
+  connection_timeout: 30
+
+# Protocols to enable
+protocols:
+  ssh:
+    enabled: true
+    port: 2222
+    banner: "SSH-2.0-OpenSSH_8.2"
+    max_auth_attempts: 3
+
+  ftp:
+    enabled: true
+    port: 2121
+    banner: "220 FTP Server Ready"
+
+  telnet:
+    enabled: true
+    port: 2323
+    banner: "Welcome to Telnet Server"
+
+  http:
+    enabled: true
+    port: 8888
+    https_enabled: true  # Set to true to enable HTTPS
+    https_port: 8443
+    template: "corporate"  # Options: corporate, wordpress, admin, office365
+    cert_file: "honeypot.pem"  # SSL certificate (auto-generated if missing)
+    key_file: "honeypot.key"   # SSL private key
+    fake_success_probability: 0.05  # 5% chance of fake "success" (0.0 to 1.0)
+    fake_success_usernames: ["admin", "administrator", "root", "demo", "test"]  # Usernames that trigger fake success
+
+  rdp:
+    enabled: true
+    port: 3389
+    # Remote Desktop Protocol - Very popular attack target
+    # Captures Windows Remote Desktop authentication attempts
+
+  smb:
+    enabled: true
+    port: 445
+    # SMB/CIFS - Windows file sharing protocol
+    # Common in ransomware and lateral movement attacks
+
+  mysql:
+    enabled: true
+    port: 3306
+    # MySQL Database Server
+    # Captures database authentication attempts
+
+# Logging configuration
+logging:
+  level: "DEBUG"  # DEBUG, INFO, WARNING, ERROR
+  console: true
+  file: true
+  log_dir: "logs"
+  rotate_size_mb: 10
+  backup_count: 5
+
+  # What to log
+  capture_passwords: true
+  capture_usernames: true
+  capture_ip_info: true
+  log_successful_logins: false  # We never allow logins, but log attempts
+
+# Analysis settings
+analysis:
+  enabled: true
+  min_attempts_for_pattern: 5
+  track_repeat_offenders: true
+  geo_lookup: false  # Requires external API
+
+# Reporting
+reporting:
+  auto_generate: true
+  interval_hours: 24
+  format: ["json", "html"]
+  report_dir: "reports"
+
+# Rate limiting (prevent abuse)
+rate_limiting:
+  enabled: true
+  max_connections_per_ip: 50
+  time_window_seconds: 300
+  auto_block_threshold: 100
+
+# Alerts (future feature)
+alerts:
+  enabled: false
+  email: ""
+  webhook: ""
+  threshold_attempts: 50

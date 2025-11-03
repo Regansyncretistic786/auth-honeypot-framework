@@ -1,0 +1,260 @@
+version: '3.8'
+
+# Multi-Container Deployment
+# Each protocol runs in its own isolated container
+# Better isolation, independent scaling, separate resource limits
+
+services:
+  # SSH Honeypot
+  honeypot-ssh:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-ssh
+    restart: unless-stopped
+    ports:
+      - "2222:2222"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=ssh
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+  # FTP Honeypot
+  honeypot-ftp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-ftp
+    restart: unless-stopped
+    ports:
+      - "2121:2121"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=ftp
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+  # Telnet Honeypot
+  honeypot-telnet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-telnet
+    restart: unless-stopped
+    ports:
+      - "2323:2323"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=telnet
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+  # HTTP Honeypot
+  honeypot-http:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-http
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=http
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+  # HTTPS Honeypot
+  honeypot-https:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-https
+    restart: unless-stopped
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+      - honeypot-certs:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=https
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+  # MySQL Honeypot
+  honeypot-mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=mysql
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+  # RDP Honeypot
+  honeypot-rdp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-rdp
+    restart: unless-stopped
+    ports:
+      - "3389:3389"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=rdp
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+  # SMB Honeypot
+  honeypot-smb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: honeypot-smb
+    restart: unless-stopped
+    ports:
+      - "4445:445"
+    volumes:
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HONEYPOT_PROTOCOL=smb
+    command: python3 -u src/main.py -c config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    networks:
+      - honeypot-net
+
+# Shared volumes
+volumes:
+  honeypot-certs:
+    driver: local
+
+# Shared network
+networks:
+  honeypot-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

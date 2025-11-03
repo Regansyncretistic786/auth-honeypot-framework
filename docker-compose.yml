@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  honeypot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-honeypot:latest
+    container_name: auth-honeypot
+    restart: unless-stopped
+
+    # Network mode: Use 'host' for maximum compatibility (recommended for production)
+    # Or use 'bridge' with port mapping (shown below)
+    network_mode: bridge
+
+    # Port mappings (customize as needed)
+    # Format: HOST_PORT:CONTAINER_PORT
+    ports:
+      # Custom ports (no root needed on host)
+      - "2222:2222"   # SSH
+      - "2121:2121"   # FTP
+      - "2323:2323"   # Telnet
+      - "8888:8888"   # HTTP
+      - "8443:8443"   # HTTPS
+      - "3306:3306"   # MySQL
+      - "3389:3389"   # RDP
+      - "4445:445"    # SMB (mapped to 4445 on host to avoid privilege issues)
+
+      # For standard ports on host (requires host to run Docker as root):
+      # Uncomment these and comment out the custom ports above
+      # - "22:2222"     # SSH on standard port 22
+      # - "21:2121"     # FTP on standard port 21
+      # - "23:2323"     # Telnet on standard port 23
+      # - "80:8888"     # HTTP on standard port 80
+      # - "443:8443"    # HTTPS on standard port 443
+      # - "445:445"     # SMB on standard port 445
+
+    # Volume mounts - preserve logs and config on host
+    volumes:
+      - ./logs:/app/logs                        # Persist logs
+      - ./reports:/app/reports                  # Persist reports
+      - ./config.yaml:/app/config.yaml:ro       # Mount config (read-only)
+      - honeypot-certs:/app                     # Persist SSL certificates
+
+    # Environment variables (optional overrides)
+    environment:
+      - PYTHONUNBUFFERED=1                      # Ensure logs appear immediately
+      - TZ=UTC                                   # Timezone
+
+    # Resource limits (optional but recommended)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'                            # Max 2 CPU cores
+          memory: 1G                             # Max 1GB RAM
+        reservations:
+          cpus: '0.5'                            # Min 0.5 CPU cores
+          memory: 256M                           # Min 256MB RAM
+
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+
+    # Run as non-root user inside container (safer)
+    # Comment out if using privileged ports inside container
+    # user: "1000:1000"
+
+    # Healthcheck
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import socket; s=socket.socket(); s.settimeout(2); s.connect(('localhost', 8888)); s.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# Named volumes
+volumes:
+  honeypot-certs:
+    driver: local
+
+# Networks (if not using host mode)
+networks:
+  default:
+    driver: bridge

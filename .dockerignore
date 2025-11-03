@@ -1,0 +1,65 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs (will be mounted as volumes)
+logs/
+*.log
+
+# Reports (will be mounted as volumes)
+reports/
+
+# Certificates (will be generated in container)
+*.pem
+*.key
+*.crt
+
+# Testing
+test_*.py
+test_*.sh
+*_test.py
+pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation (not needed in container)
+*.md
+docs/
+
+# Docker files (not needed in image)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Development
+TODO.txt
+notes.txt
